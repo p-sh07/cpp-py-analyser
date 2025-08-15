@@ -13,6 +13,7 @@ execute_process(
 )
 
 find_package(GTest REQUIRED)
+find_package(range-v3) #cmake doesnt find range v3 from conan without this line
 find_package(Boost REQUIRED COMPONENTS program_options)
 
 include_directories(

@@ -30,6 +30,7 @@ namespace rs = std::ranges;
 auto AnalyseFunctions(const std::vector<std::string>& files,
                       const analyser::metric::MetricExtractor& metric_extractor) {
     // здесь ваш код
+
 }
 
 auto SplitByClasses(const auto& analysis) {
