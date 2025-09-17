@@ -13,9 +13,21 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <string_view>
 
 namespace analyser::metric::metric_impl {
+namespace rgs = std::ranges;
+namespace vws = std::views;
 
-// здесь ваш код
+MetricResult::ValueType CountParametersMetric::CalculateImpl(const function::Function& f) const {
+    //TODO:
+    return 0;
+}
+
+std::string CountParametersMetric::Name() const {
+    return "Parameters Count";
+}
+
+
 
 }  // namespace analyser::metric::metric_impl

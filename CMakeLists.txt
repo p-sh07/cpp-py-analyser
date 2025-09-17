@@ -22,7 +22,8 @@ include_directories(
 
 set(target analyser)
 
-add_executable(${target} main.cpp)
+add_executable(${target} main.cpp
+)
 target_include_directories(${target} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
@@ -39,3 +40,4 @@ include(CTest)
 enable_testing()
 
 add_subdirectory(src)
+set(GTEST_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/tests)

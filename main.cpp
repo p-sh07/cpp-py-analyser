@@ -43,7 +43,10 @@ int main(int argc, char *argv[]) {
 
     // выведете результаты анализа на консоль
     auto& code_lines = metric_extractor.metrics[0];
+    auto& cyclomatic_comp = metric_extractor.metrics[1];
 
+    // auto code_lines_result = code_lines->Calculate()
+    // std::println("Name: {}, Result: {}", )
 
     // analyser::metric_accumulator::MetricsAccumulator accumulator;
     // зарегистрируйте аккумуляторы метрик в accumulator
