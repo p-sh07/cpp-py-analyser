@@ -5,6 +5,11 @@
 namespace analyser::metric::metric_impl {
 using std::literals::operator""s;
 
+TEST(LinesCountTests, EmptyFile) {
+    const file::File file_ {"empty.py"};
+    EXPECT_NO_THROW(std::unique_ptr<IMetric> metric_ptr_ = std::make_unique<CodeLinesCountMetric>());
+}
+
 // Test fixture to get function from file, list files in params
 class LinesCount : public testing::TestWithParam<std::pair<std::string, int>> {
 protected:
@@ -26,8 +31,8 @@ TEST_P(LinesCount, CheckCorrectLineCount) {
 INSTANTIATE_TEST_SUITE_P(
     //Filename, correct line count
     LinesCountTests, LinesCount, ::testing::Values(
-        std::make_pair("comments.py"s,4)
-    )); //etc, if needed
-//TODO: add files and counts
-
+        std::make_pair("comments.py"s, 4),
+        std::make_pair("many_lines.py"s, 11),
+        std::make_pair("nested_if.py"s, 11)
+    ));
 }  // namespace analyser::metric::metric_impl

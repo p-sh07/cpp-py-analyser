@@ -1,7 +1,6 @@
 #include "metric_impl/code_lines_count.hpp"
 
 #include <unistd.h>
-
 #include <algorithm>
 #include <charconv>
 #include <filesystem>
@@ -10,8 +9,6 @@
 #include <sstream>
 #include <string>
 #include <unordered_set>
-
-#include "utils.hpp"
 
 namespace analyser::metric::metric_impl {
 using std::literals::operator""sv;

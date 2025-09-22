@@ -21,9 +21,10 @@
 namespace analyser::metric::metric_impl {
 
 struct CodeLinesCountMetric final: IMetric {
+   std::string Name() const override;
+
 protected:
    MetricResult::ValueType CalculateImpl(const function::Function& f) const override;
-   std::string Name() const override;
 
 private:
    static bool IsNotComment(std::string_view ast_output_line);

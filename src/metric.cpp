@@ -23,12 +23,14 @@
 namespace analyser::metric {
 
 void MetricExtractor::RegisterMetric(std::unique_ptr<IMetric> metric) {
-    metrics.push_back(std::move(metric));
+    metrics_.push_back(std::move(metric));
 }
 
-MetricResults MetricExtractor::Get(const function::Function &func) const {
-    MetricResults results;
-    return {};
+MetricResultsVector MetricExtractor::Get(const function::Function& func) const {
+    return metrics_
+    | vw::transform([&](const auto& metric_ptr){ return metric_ptr->Calculate(func); })
+    | rg::to<std::vector>();
+
 }
 
 }  // namespace analyser::metric

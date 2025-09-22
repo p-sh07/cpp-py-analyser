@@ -1,33 +1,36 @@
 #include "metric_impl/parameters_count.hpp"
 
-#include <array>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <filesystem>
-#include <fstream>
 #include <functional>
-#include <iostream>
 #include <ranges>
-#include <sstream>
 #include <string>
-#include <variant>
-#include <vector>
 #include <string_view>
 
 namespace analyser::metric::metric_impl {
-namespace rgs = std::ranges;
-namespace vws = std::views;
 
 MetricResult::ValueType CountParametersMetric::CalculateImpl(const function::Function& f) const {
-    //TODO:
-    return 0;
+    return static_cast<MetricResult::ValueType>(
+        rg::distance(
+            utils::GetStringViewLines(f.ast)
+            | vw::take_while(NotReachedFunctionBody)
+            | vw::filter(MatchParameterTag)
+        ) - 1 //subtract function name identifier
+    );
+
 }
 
 std::string CountParametersMetric::Name() const {
     return "Parameters Count";
 }
 
+bool CountParametersMetric::NotReachedFunctionBody(std::string_view line) {
+    return !line.contains(body_tag_);
+}
 
-
+bool CountParametersMetric::MatchParameterTag(std::string_view line) {
+    //discard empty lines
+    if(line.empty()) {
+        return false;
+    }
+    return line.contains(parameter_tag_);
+}
 }  // namespace analyser::metric::metric_impl
