@@ -22,14 +22,12 @@ namespace analyser::metric_accumulator::metric_accumulator_impl {
 
 struct AverageAccumulator: public IAccumulator {
     void Accumulate(const metric::MetricResult& metric_result) override;
-
     void Finalize() override;
-
-    void Reset();
-
+    void Reset() override;
     double Get() const;
 
 private:
+    bool finalized = false;
     int sum = 0;
     int count = 0;
     double average = 0;

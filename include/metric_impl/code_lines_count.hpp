@@ -21,7 +21,14 @@
 namespace analyser::metric::metric_impl {
 
 struct CodeLinesCountMetric final: IMetric {
-    // здесь ваш код
+   std::string Name() const override;
+
+protected:
+   MetricResult::ValueType CalculateImpl(const function::Function& f) const override;
+
+private:
+   static bool IsNotComment(std::string_view ast_output_line);
+   static int ParseLineNumber(std::string_view sv);
 };
 
 } // namespace analyser::metric::metric_impl

@@ -18,10 +18,11 @@
 #include <vector>
 
 #include "function.hpp"
+#include "utils.hpp"
 
-namespace fs = std::filesystem;
-namespace rv = std::ranges::views;
-namespace rs = std::ranges;
+using std::literals::operator""sv;
+namespace vw = std::views;
+namespace rg = std::ranges;
 
 namespace analyser::metric {
 
@@ -39,18 +40,44 @@ struct IMetric {
         return MetricResult{.metric_name = Name(), .value = CalculateImpl(f)};
     }
 
+    virtual std::string Name() const = 0;
+
 protected:
     virtual MetricResult::ValueType CalculateImpl(const function::Function& f) const = 0;
-    virtual std::string Name() const = 0;
 };
 
-using MetricResults = std::vector<MetricResult>;
+using MetricResultsVector = std::vector<MetricResult>;
 
 struct MetricExtractor {
     void RegisterMetric(std::unique_ptr<IMetric> metric);
 
-    MetricResults Get(const function::Function& func) const;
-    std::vector<std::unique_ptr<IMetric>> metrics;
+    MetricResultsVector Get(const function::Function& func) const;
+    std::vector<std::unique_ptr<IMetric>> metrics_;
 };
 
 } // namespace analyser::metric
+
+// Formatter для MetricResult
+template <>
+struct std::formatter<analyser::metric::MetricResult, char> {
+    template <typename FormatContext>
+    auto format(const analyser::metric::MetricResult& result, FormatContext &fc) const {
+        return format_to( fc.out(), "    {}: {}", result.metric_name, result.value);
+    }
+
+    constexpr auto parse(format_parse_context &ctx) { return ctx.begin(); }
+};
+
+// Formatter для MetricResultVector
+template <>
+struct std::formatter<analyser::metric::MetricResultsVector, char> {
+    template <typename FormatContext>
+    auto format(const analyser::metric::MetricResultsVector& result_vec, FormatContext& fc) const {
+        rg::for_each(result_vec, [&](const auto& result) {
+            format_to( fc.out(), "{}\n", result);
+        });
+        return fc.out();
+    }
+
+    constexpr auto parse(format_parse_context &ctx) { return ctx.begin(); }
+};

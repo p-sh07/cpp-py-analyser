@@ -14,8 +14,9 @@
         "ms-vscode.cmake-tools"
       ]
     }
-  },
-  "mounts": [
-    "source=${env:HOME}/.gitconfig,target=/etc/gitconfig,type=bind,consistency=cached"
-  ]
+  }
+  // ,
+  // "mounts": [
+  //   "source=${env:HOME}/.gitconfig,target=/etc/gitconfig,type=bind,consistency=cached"
+  //  ]
 }
